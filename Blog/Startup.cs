@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Blog.Data;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog
 {
@@ -26,6 +27,17 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength= 6;
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
+
             services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration["DefailtConnection"]));
             services.AddTransient<IRepository, Repository>();
             // dotnet ef migrations add MigrationName
@@ -35,6 +47,8 @@ namespace Blog
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseDeveloperExceptionPage();
+
+            app.UseAuthentication();
 
             app.UseStatusCodePages();
             app.UseStaticFiles();
