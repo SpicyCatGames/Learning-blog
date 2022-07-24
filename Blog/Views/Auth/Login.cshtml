@@ -1,10 +1,10 @@
 ﻿@model LoginViewModel
 
 @{
-    
+    var returnUrl = @Context.Request.Query["returnurl"];
 }
 
-<form asp-controller="Auth" asp-action="Login">
+<form asp-controller="Auth" asp-action="Login" asp-route-returnurl="@returnUrl">
     <div>
         <label for="UserName" >UserName</label>
         <input asp-for=UserName/>

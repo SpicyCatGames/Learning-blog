@@ -25,11 +25,15 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel vm)
+        public async Task<IActionResult> Login(LoginViewModel vm, string returnUrl)
         {
+            var s = HttpContext.Request.Query["returnUrl"];
             var result = await _signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, false);
 
-            return RedirectToAction("Index", "Home");
+            if (result.Succeeded && !String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
