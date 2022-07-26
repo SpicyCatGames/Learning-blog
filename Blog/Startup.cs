@@ -12,6 +12,7 @@ using Blog.Data;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data.Repository;
 using Microsoft.AspNetCore.Identity;
+using Blog.Data.FileManager;
 
 namespace Blog
 {
@@ -45,6 +46,7 @@ namespace Blog
 
             services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration["DefailtConnection"]));
             services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IFileManager, FileManager>();
             // dotnet ef migrations add MigrationName
             // dotnet ef database update
         }
