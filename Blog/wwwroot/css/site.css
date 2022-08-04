@@ -61,11 +61,14 @@ nav {
         object-fit: cover;
     }
 
-    .post-body{
-        margin: -5px 5px 0;
-        background-color: white;
-    }
+.post-body {
+    margin: -5px 5px 0;
+    background-color: white;
+    padding: 20px 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 
-    .no-shadow {
-        box-shadow: none;
-    }
+.no-shadow {
+    box-shadow: none;
+}
