@@ -10,10 +10,12 @@ namespace Blog.Data.Repository
     public class Repository : IRepository
     {
         private AppDbContext _ctx;
+
         public Repository(AppDbContext ctx)
         {
             _ctx = ctx;
         }
+
         public void AddPost(Post post)
         {
             _ctx.Posts.Add(post);
@@ -22,6 +24,13 @@ namespace Blog.Data.Repository
         public List<Post> GetAllPosts()
         {
             return _ctx.Posts.ToList();
+        }
+
+        public List<Post> GetAllPosts(string category)
+        {
+            return _ctx.Posts
+                .Where(post => post.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
         public Post GetPost(int id)
@@ -33,10 +42,12 @@ namespace Blog.Data.Repository
         {
             _ctx.Posts.Remove(GetPost(id));
         }
+
         public void UpdatePost(Post post)
         {
             _ctx.Posts.Update(post);
         }
+
         public async Task<bool> SaveChangesAsync()
         {
             if (await _ctx.SaveChangesAsync() > 0)

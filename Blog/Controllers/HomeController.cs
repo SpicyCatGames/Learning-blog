@@ -22,9 +22,10 @@ namespace Blog.Controllers
             _fileManager = fileManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string category)
         {
-            return View(_repo.GetAllPosts());
+            var posts = String.IsNullOrEmpty(category) ? _repo.GetAllPosts() : _repo.GetAllPosts(category);
+            return View(posts);
         }
 
         public IActionResult Post(int id)

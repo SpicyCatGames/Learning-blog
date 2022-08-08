@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<Post>
 
 @{
-
+    ViewBag.Title = "Blog Website";
+    ViewBag.Description = "This Blog has everything!";
+    ViewBag.Keywords = "blog programming travel photography";
+    //ViewData.Add("Title", "Blog Website");
+    //ViewData.Add("Description", "This Blog has everything!");
+    //ViewData.Add("Keywords", "blog programming travel photography");
 }
 @*<h2>Home Page!</h2>
 
@@ -29,7 +34,6 @@
             <span class="title">
                 @post.Title
             </span>
-            
         </a>
     }
 </div>
