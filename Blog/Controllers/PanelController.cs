@@ -24,9 +24,9 @@ namespace Blog.Controllers
             _fileManager = fileManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_repo.GetAllPosts());
+            return View(await _repo.GetAllPosts());
         }
 
         [HttpGet]

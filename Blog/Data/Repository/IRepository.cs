@@ -11,9 +11,9 @@ namespace Blog.Data.Repository
     {
         Post GetPost(int id);
 
-        List<Post> GetAllPosts();
+        Task<List<Post>> GetAllPosts();
 
-        List<Post> GetAllPosts(string Category);
+        Task<List<Post>> GetAllPosts(string Category);
 
         void AddPost(Post post);
 

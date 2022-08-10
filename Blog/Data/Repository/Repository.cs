@@ -1,7 +1,9 @@
 ﻿using Blog.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,16 +23,25 @@ namespace Blog.Data.Repository
             _ctx.Posts.Add(post);
         }
 
-        public List<Post> GetAllPosts()
+        public async Task<List<Post>> GetAllPosts()
         {
-            return _ctx.Posts.ToList();
+            return await _ctx.Posts.ToListAsync();
         }
 
-        public List<Post> GetAllPosts(string category)
+        public async Task<List<Post>> GetAllPosts(string category)
         {
-            return _ctx.Posts
-                .Where(post => post.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            return await _ctx.Posts
+                .Where(post => post.Category.Equals(category))
+                .ToListAsync();
+            // This words but is case insensitive
+
+            // TODO asenumerable or await linq.tolistasync or expression<func<>> for client side eval
+
+            //Expression<Func<Post, bool>> InCategoryExpr = post => post.Category.Equals(category);
+            //return await _ctx.Posts
+            //    .Where(InCategoryExpr)
+            //    .ToListAsync();
+            // This works but is case insensitive
         }
 
         public Post GetPost(int id)
