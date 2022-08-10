@@ -35,7 +35,8 @@ namespace Blog.Data.Repository
                 .ToListAsync();
             // This words but is case insensitive
 
-            // TODO asenumerable or await linq.tolistasync or expression<func<>> for client side eval
+            // asenumerable or await linq.tolistasync or expression<func<>> for client side eval
+            // TODO why does expression still give translation error and not allow client side eval
 
             //Expression<Func<Post, bool>> InCategoryExpr = post => post.Category.Equals(category);
             //return await _ctx.Posts
