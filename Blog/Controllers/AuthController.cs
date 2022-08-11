@@ -30,10 +30,15 @@ namespace Blog.Controllers
             var s = HttpContext.Request.Query["returnUrl"];
             var result = await _signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, false);
 
-            if (result.Succeeded && !String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
+            if (result.Succeeded)
+            {
+                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("Index", "Home");
+            }
             else
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login");
         }
 
         [HttpGet]
