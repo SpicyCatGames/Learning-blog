@@ -55,11 +55,12 @@ namespace Blog
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseAuthentication();
+            
 
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
