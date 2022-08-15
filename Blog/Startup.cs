@@ -42,6 +42,8 @@ namespace Blog
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Auth/Login";
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
             });
 
             services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration["DefaultConnection"]));
