@@ -44,7 +44,7 @@ namespace Blog
                 options.LoginPath = "/Auth/Login";
             });
 
-            services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration["DefailtConnection"]));
+            services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration["DefaultConnection"]));
             services.AddTransient<IRepository, Repository>();
             services.AddTransient<IFileManager, FileManager>();
             // dotnet ef migrations add MigrationName
