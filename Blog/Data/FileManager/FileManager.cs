@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PhotoSauce.MagicScaler;
 
 namespace Blog.Data.FileManager
 {
@@ -40,7 +41,11 @@ namespace Blog.Data.FileManager
 
                 using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                 {
-                    await image.CopyToAsync(fileStream);
+                    // await image.CopyToAsync(fileStream);
+                    await Task.Run(() =>
+                    {
+                        MagicImageProcessor.ProcessImage(image.OpenReadStream(), fileStream, ImageOptions());
+                    });
                 }
 
                 return fileName;
@@ -69,6 +74,19 @@ namespace Blog.Data.FileManager
                 Console.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        private ProcessImageSettings ImageOptions()
+        {
+            var settings = new ProcessImageSettings()
+                {
+                    Width = 800,
+                    Height = 500,
+                    ResizeMode = CropScaleMode.Crop,
+                    // EncoderOptions = new JpegEncoderOptions(100, ChromaSubsampleMode.Subsample420, true),
+                };
+            settings.TrySetEncoderFormat(ImageMimeTypes.Jpeg);
+            return settings;
         }
     }
 }
