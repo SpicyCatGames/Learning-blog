@@ -37,6 +37,7 @@ namespace Blog.Controllers
 
         //[HttpGet("[controller]/Image/{image}")]
         [HttpGet("/Image/{image}")]
+        [ResponseCache(Duration = 300)]
         public IActionResult Image(string image)
         {
             var mime = image.Substring(image.LastIndexOf('.') + 1);

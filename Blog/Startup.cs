@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Blog.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Blog.Data.FileManager;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog
 {
@@ -28,6 +29,7 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //https://code-maze.com/aspnetcore-response-caching/
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
@@ -51,6 +53,7 @@ namespace Blog
             services.AddTransient<IFileManager, FileManager>();
             // dotnet ef migrations add MigrationName
             // dotnet ef database update
+            services.AddResponseCaching();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -8,7 +8,13 @@
     <meta name="description" content="@ViewBag.Description" />
     @*<meta name="keywords" content="@(ViewData.TryGetValue("Keywords", out var val) ? (string)val : "")" />*@
     <meta name="keywords" content="@ViewBag.Keywords" />
-    <link href="~/css/site.css" rel="stylesheet" />
+    <environment exclude="Development">
+        <link href="~/css/site.min.css" rel="stylesheet" />
+    </environment>
+    <environment include="Development">
+        <link href="~/css/site.css" rel="stylesheet" />
+    </environment>
+    
 </head>
 <body>
     <div>
