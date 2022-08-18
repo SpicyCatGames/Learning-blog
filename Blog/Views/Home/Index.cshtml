@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Post>
+﻿@model IndexViewModel
 
 @{
     ViewBag.Title = "Blog Website";
@@ -27,7 +27,18 @@
                </li>
            }
         </ul>*@
-    @foreach (var post in Model)
+    <div>
+        @if (Model.PageNumber != 1)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-category="@Model.Category">Previous Page</a>
+        }
+        @if (Model.NextPage)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-category="@Model.Category">Next Page</a>
+        }
+    </div>
+
+    @foreach (var post in Model.Posts)
     {
         var image_path = $"{base_path}/Image/{post.Image}";
         <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" class="post">

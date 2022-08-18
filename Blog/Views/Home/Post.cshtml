@@ -31,4 +31,33 @@
     <div class="post-body">
         @Html.Raw(Model.Body)
     </div>
+    <div class="comment-section">
+        @{
+            await Html.RenderPartialAsync("_MainComment", new CommentViewModel(){ PostId = Model.Id, MainCommentId = 0 });
+        }
+        @foreach (var c in Model.MainComments)
+        {
+            <hr />
+            <p>
+                @c.Message --- @c.Created
+            </p>
+            <div style="margin-left:20px;">
+
+                @{
+                    await Html.RenderPartialAsync("_MainComment", new CommentViewModel() { PostId = Model.Id, MainCommentId = c.Id});
+                }
+                @if (c.SubComments != null && c.SubComments.Count > 0)
+                {
+                    <h4>SubComments</h4>
+                    @foreach (var sc in c.SubComments)
+                    {
+                        <p>
+                            @sc.Message --- @sc.Created
+                        </p>
+                    }
+                }
+
+            </div>
+        }
+    </div>
 </div>
