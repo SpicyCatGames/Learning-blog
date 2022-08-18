@@ -36,7 +36,8 @@ namespace Blog.Data.FileManager
 
                 //internet explorer error
                 //var fileName = image.FileName;
-                var mime = image.FileName.Substring(image.FileName.LastIndexOf('.'));
+                // var mime = image.FileName.Substring(image.FileName.LastIndexOf('.'));
+                var mime = ".jpg";
                 var fileName = $"img_{DateTime.Now.ToString("dd-MM-yy-HH-mm-ss")}{mime}";
 
                 using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
