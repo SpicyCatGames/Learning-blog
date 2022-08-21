@@ -30,39 +30,66 @@ namespace Blog.Data.Repository
             return await _ctx.Posts.ToListAsync();
         }
 
-        public async Task<IndexViewModel> GetAllPosts(int pageNumber)
-        {
-            int pageSize = 5;
-            int skipAmount = pageSize * (pageNumber - 1);
+        //public async Task<IndexViewModel> GetAllPosts(int pageNumber)
+        //{
+        //    int pageSize = 5;
+        //    int skipAmount = pageSize * (pageNumber - 1);
 
-            return new IndexViewModel()
-            {
-                PageNumber = pageNumber,
-                NextPage = _ctx.Posts.Count() > skipAmount + pageSize,
-                Posts = await _ctx.Posts
-                    .Skip(skipAmount)
-                    .Take(pageSize)
-                    .ToListAsync()
-            };
-        }
+        //    return new IndexViewModel()
+        //    {
+        //        PageNumber = pageNumber,
+        //        NextPage = _ctx.Posts.Count() > skipAmount + pageSize,
+        //        Posts = await _ctx.Posts
+        //            .Skip(skipAmount)
+        //            .Take(pageSize)
+        //            .ToListAsync()
+        //    };
+        //}
 
         public async Task<IndexViewModel> GetAllPosts(int pageNumber, string category)
         {
+            Func<Post, bool> InCategory = (post) => post.Category.Equals(category, StringComparison.OrdinalIgnoreCase);
+
             int pageSize = 5;
             int skipAmount = pageSize * (pageNumber - 1);
+
+            var query = _ctx.Posts.AsQueryable();
+
+            if (!String.IsNullOrEmpty(category))
+                query = query.Where(x => InCategory(x));
+
+            int postCount = query.Count();
 
             return new IndexViewModel()
             {
                 PageNumber = pageNumber,
+                PageCount = postCount / pageSize,
                 Category = category,
-                NextPage = _ctx.Posts.Where(p => p.Category.Equals(category)).Count() > skipAmount + pageSize,
-                Posts = await _ctx.Posts
-                    .Where(p => p.Category.Equals(category))
+                NextPage = postCount > skipAmount + pageSize,
+                Posts = await query
                     .Skip(skipAmount)
                     .Take(pageSize)
                     .ToListAsync()
             };
         }
+
+        //public async Task<IndexViewModel> GetAllPosts(int pageNumber, string category)
+        //{
+        //    int pageSize = 5;
+        //    int skipAmount = pageSize * (pageNumber - 1);
+
+        //    return new IndexViewModel()
+        //    {
+        //        PageNumber = pageNumber,
+        //        Category = category,
+        //        NextPage = _ctx.Posts.Where(p => p.Category.Equals(category)).Count() > skipAmount + pageSize,
+        //        Posts = await _ctx.Posts
+        //            .Where(p => p.Category.Equals(category))
+        //            .Skip(skipAmount)
+        //            .Take(pageSize)
+        //            .ToListAsync()
+        //    };
+        //}
 
         //public async Task<List<Post>> GetAllPosts(string category)
         //{

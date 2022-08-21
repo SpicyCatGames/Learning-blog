@@ -33,9 +33,11 @@ namespace Blog.Controllers
             //    _repo.GetAllPosts(pageNumber) : 
             //    _repo.GetAllPosts(category);
 
-            var vm = (String.IsNullOrEmpty(category)) ?
-                await _repo.GetAllPosts(pageNumber)
-                : await _repo.GetAllPosts(pageNumber, category);
+            //var vm = (String.IsNullOrEmpty(category)) ?
+            //    await _repo.GetAllPosts(pageNumber)
+            //    : await _repo.GetAllPosts(pageNumber, category);
+
+            var vm = await _repo.GetAllPosts(pageNumber, category);
 
             return View(vm);
         }

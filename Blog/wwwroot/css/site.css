@@ -72,3 +72,20 @@ nav {
 .no-shadow {
     box-shadow: none;
 }
+
+.pages{
+    display:flex;
+    justify-content: center;
+    margin: 2rem;
+}
+.pages a{
+    background-color: #aaa;
+    padding: 1rem;
+    color: white;
+    border: 1px solid #eee;
+    margin: 0 0.25rem;
+}
+    .pages a:hover {
+        background-color: #999;
+        text-decoration: none;
+    }

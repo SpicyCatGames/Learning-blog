@@ -14,7 +14,7 @@ namespace Blog.Data.Repository
         Post GetPost(int id);
         Task<List<Post>> GetAllPosts();
         /// <param name="pageNumber">index starts at 1</param>
-        Task<IndexViewModel> GetAllPosts(int pageNumber);
+        //Task<IndexViewModel> GetAllPosts(int pageNumber);
         Task<IndexViewModel> GetAllPosts(int pageNumber, string category);
         void AddPost(Post post);
         void UpdatePost(Post post);
