@@ -48,15 +48,13 @@ namespace Blog.Data.Repository
 
         public async Task<IndexViewModel> GetAllPosts(int pageNumber, string category)
         {
-            Func<Post, bool> InCategory = (post) => post.Category.Equals(category, StringComparison.OrdinalIgnoreCase);
-
             int pageSize = 5;
             int skipAmount = pageSize * (pageNumber - 1);
 
             var query = _ctx.Posts.AsQueryable();
 
             if (!String.IsNullOrEmpty(category))
-                query = query.Where(x => InCategory(x));
+                query = query.Where(x => x.Category.Equals(category));
 
             int postCount = query.Count();
 
