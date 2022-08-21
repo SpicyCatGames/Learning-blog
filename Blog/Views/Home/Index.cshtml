@@ -33,6 +33,13 @@
             <a asp-controller="Home" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" 
             asp-route-category="@Model.Category">&lt;</a>
         }
+        @for (var i = 1; i <= Model.PageCount; i++)
+        {
+            string activeClass = (i == Model.PageNumber) ? "active" : "";
+
+            <a asp-controller="Home" asp-action="Index" asp-route-pageNumber="@i" 
+            asp-route-category="@Model.Category" class="@activeClass">@i</a>
+        }
         @if (Model.NextPage)
         {
             <a asp-controller="Home" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" 

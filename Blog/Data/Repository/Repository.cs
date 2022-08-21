@@ -61,7 +61,7 @@ namespace Blog.Data.Repository
             return new IndexViewModel()
             {
                 PageNumber = pageNumber,
-                PageCount = postCount / pageSize,
+                PageCount = (int)Math.Ceiling((double)postCount / pageSize),
                 Category = category,
                 NextPage = postCount > skipAmount + pageSize,
                 Posts = await query
