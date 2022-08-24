@@ -110,33 +110,33 @@ namespace Blog.Data.Repository
 
         private IEnumerable<int> PageNumbers(int pageNumber, int pageCount)
         {
-            List<int> pages = new List<int>();
             int midPoint = (pageNumber < 3) ? 3 
                 : (pageNumber > pageCount - 2) ? ( pageCount - 2 )
                 : pageNumber;
 
-            for (var i = midPoint - 2; i <= midPoint + 2; i++)
+            int lowerBound = midPoint - 2;
+            int upperBound = midPoint + 2;
+
+            if (lowerBound != 1)
             {
-                pages.Add(i);
+                yield return 1;
+
+                if (lowerBound - 1 > 1)
+                    yield return -1;
             }
 
-            if (pages[0] != 1)
+            for (var i = midPoint - 2; i <= midPoint + 2; i++)
             {
-                pages = pages.Prepend(1).ToList();
-                if (pages[1] - pages[0] > 1)
-                {
-                    pages.Insert(1, -1);
-                }
+                yield return i;
             }
-            if (pages[pages.Count - 1] != pageCount)
+
+            if (upperBound != pageCount)
             {
-                pages = pages.Append(pageCount).ToList();
-                if (pages[pages.Count - 1] - pages[pages.Count - 2] > 1)
-                {
-                    pages.Insert(pages.Count - 1, -1);
-                }
+                if (pageCount - upperBound > 1)
+                    yield return -1;
+
+                yield return pageCount;
             }
-            return pages;
         }
 
         public Post GetPost(int id)
