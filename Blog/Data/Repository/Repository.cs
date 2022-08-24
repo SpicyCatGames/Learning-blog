@@ -48,7 +48,7 @@ namespace Blog.Data.Repository
 
         public async Task<IndexViewModel> GetAllPosts(int pageNumber, string category)
         {
-            int pageSize = 5;
+            int pageSize = 2;
             int skipAmount = pageSize * (pageNumber - 1);
 
             var query = _ctx.Posts.AsQueryable();
@@ -57,13 +57,15 @@ namespace Blog.Data.Repository
                 query = query.Where(x => x.Category.Equals(category));
 
             int postCount = query.Count();
+            int pageCount = (int)Math.Ceiling((double)postCount / pageSize);
 
             return new IndexViewModel()
             {
                 PageNumber = pageNumber,
-                PageCount = (int)Math.Ceiling((double)postCount / pageSize),
+                PageCount = pageCount,
                 Category = category,
                 NextPage = postCount > skipAmount + pageSize,
+                Pages = PageNumbers(pageNumber, pageCount),
                 Posts = await query
                     .Skip(skipAmount)
                     .Take(pageSize)
@@ -105,6 +107,37 @@ namespace Blog.Data.Repository
         //    //    .ToListAsync();
         //    // This works but is case insensitive
         //}
+
+        private IEnumerable<int> PageNumbers(int pageNumber, int pageCount)
+        {
+            List<int> pages = new List<int>();
+            int midPoint = (pageNumber < 3) ? 3 
+                : (pageNumber > pageCount - 2) ? ( pageCount - 2 )
+                : pageNumber;
+
+            for (var i = midPoint - 2; i <= midPoint + 2; i++)
+            {
+                pages.Add(i);
+            }
+
+            if (pages[0] != 1)
+            {
+                pages = pages.Prepend(1).ToList();
+                if (pages[1] - pages[0] > 1)
+                {
+                    pages.Insert(1, -1);
+                }
+            }
+            if (pages[pages.Count - 1] != pageCount)
+            {
+                pages = pages.Append(pageCount).ToList();
+                if (pages[pages.Count - 1] - pages[pages.Count - 2] > 1)
+                {
+                    pages.Insert(pages.Count - 1, -1);
+                }
+            }
+            return pages;
+        }
 
         public Post GetPost(int id)
         {
