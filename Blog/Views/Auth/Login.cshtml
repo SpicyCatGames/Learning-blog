@@ -4,7 +4,7 @@
     var returnUrl = @Context.Request.Query["returnurl"];
 }
 
-<form asp-controller="Auth" asp-action="Login" asp-route-returnurl="@returnUrl">
+<form class="sign-in-form" asp-controller="Auth" asp-action="Login" asp-route-returnurl="@returnUrl">
     <div>
         <label for="UserName" >UserName</label>
         <input asp-for=UserName/>
@@ -13,5 +13,8 @@
         <label for="Password">Password</label>
         <input asp-for=Password/>
     </div>
-    <input type="submit" value="Sign in" />
+    <div>
+        <input type="submit" value="Sign in" />
+        <a asp-controller="Auth" asp-action="Register">Register</a>
+    </div>
 </form>

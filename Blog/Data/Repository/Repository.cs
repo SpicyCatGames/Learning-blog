@@ -1,4 +1,5 @@
-﻿using Blog.Models;
+﻿using Blog.Helpers;
+using Blog.Models;
 using Blog.Models.Comments;
 using Blog.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,7 @@ namespace Blog.Data.Repository
                 PageCount = pageCount,
                 Category = category,
                 NextPage = postCount > skipAmount + pageSize,
-                Pages = PageNumbers(pageNumber, pageCount),
+                Pages = PageHelper.PageNumbers(pageNumber, pageCount).ToList(), // not adding tolist will make the IEnumberable method calculate again
                 Posts = await query
                     .Skip(skipAmount)
                     .Take(pageSize)
@@ -107,37 +108,6 @@ namespace Blog.Data.Repository
         //    //    .ToListAsync();
         //    // This works but is case insensitive
         //}
-
-        private IEnumerable<int> PageNumbers(int pageNumber, int pageCount)
-        {
-            int midPoint = (pageNumber < 3) ? 3 
-                : (pageNumber > pageCount - 2) ? ( pageCount - 2 )
-                : pageNumber;
-
-            int lowerBound = midPoint - 2;
-            int upperBound = midPoint + 2;
-
-            if (lowerBound != 1)
-            {
-                yield return 1;
-
-                if (lowerBound - 1 > 1)
-                    yield return -1;
-            }
-
-            for (var i = midPoint - 2; i <= midPoint + 2; i++)
-            {
-                yield return i;
-            }
-
-            if (upperBound != pageCount)
-            {
-                if (pageCount - upperBound > 1)
-                    yield return -1;
-
-                yield return pageCount;
-            }
-        }
 
         public Post GetPost(int id)
         {
